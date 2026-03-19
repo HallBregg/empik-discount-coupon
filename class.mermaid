@@ -1,0 +1,21 @@
+classDiagram
+    class Coupon{
+        +UUID id
+        +String code
+        +String countryCode
+        +int maxUsage
+        +int currentUsage
+        +Date createdAt
+        +int version
+    }
+
+    class CouponRedemption{
+        +UUID id
+        +UUID couponId
+        +UUID userId
+        +Date redeemedAt
+        +IP ip
+        +String countryCode
+    }
+
+    Coupon "1" --> "*" CouponRedemption
