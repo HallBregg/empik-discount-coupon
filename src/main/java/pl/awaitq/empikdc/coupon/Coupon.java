@@ -64,4 +64,28 @@ class Coupon {
         this.currentUsage = 0;
         this.createdAt = Instant.now();
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public CouponCode getCode() {
+        return code;
+    }
+
+    public ISOCountry getCountry() {
+        return country;
+    }
+
+    public int getMaxUsage() {
+        return maxUsage;
+    }
+
+    public int getCurrentUsage() {
+        return currentUsage;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 }

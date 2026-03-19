@@ -1,6 +1,7 @@
 package pl.awaitq.empikdc.coupon;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 class ISOCountry {
@@ -20,6 +21,27 @@ class ISOCountry {
     }
 
     public String getValue() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ISOCountry that)) {
+            return false;
+        }
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
         return value;
     }
 }
