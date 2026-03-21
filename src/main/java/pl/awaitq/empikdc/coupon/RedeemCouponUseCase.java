@@ -6,6 +6,8 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 
 @Service
 class RedeemCouponUseCase {
@@ -47,15 +49,15 @@ class RedeemCouponUseCase {
                 .orElseThrow(() -> new RuntimeException("Coupon not found"));
 
         if (!coupon.countryAllowed(isoCountry)) {
-            throw new RuntimeException("Invalid country");
+            throw new CouponInvalidCountryDomainException(isoCountry);
         }
 
         if (coupon.isMaxUsageReached()) {
-            throw new RuntimeException("Limit reached");
+            throw new CouponLimitReachedDomainException();
         }
 
         if (couponRedemptionRepository.existsByCouponIdAndUserId(coupon.getId(), command.userId())) {
-            throw new RuntimeException("Already used");
+            throw new CouponHasAlreadyBeenUsed();
         }
         coupon.redeemed();
 
@@ -68,13 +70,13 @@ class RedeemCouponUseCase {
         try {
             couponRepository.save(coupon);
         } catch (ObjectOptimisticLockingFailureException e) {
-            throw new RuntimeException("Race condition.");
+            throw new CouponOptimisticLockingFailureException(coupon.getId(), command.userId(), Instant.now());
         }
 
         try {
             couponRedemptionRepository.save(couponRedemption);
         } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Already used");
+            throw new CouponHasAlreadyBeenUsed();
         }
         return new RedeemCouponResult(couponRedemption.getId(), couponRedemption.getRedeemedAt());
     }

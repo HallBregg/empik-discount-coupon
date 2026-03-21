@@ -3,7 +3,7 @@ package pl.awaitq.empikdc.coupon;
 import java.util.Objects;
 
 
-class CouponCode {
+public class CouponCode {
     private final String value;
 
     public CouponCode(String value) {
