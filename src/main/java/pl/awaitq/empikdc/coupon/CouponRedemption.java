@@ -44,6 +44,10 @@ class CouponRedemption {
     @Column(nullable = false)
     private int version;  // rather not required
 
+    public static CouponRedemption create(UUID couponId, UUID userId, String ip, ISOCountry country) {
+        return new CouponRedemption(couponId, userId, ip, country);
+    }
+
     protected CouponRedemption() {}
 
     private CouponRedemption(UUID couponId, UUID userId, String ip, ISOCountry country) {

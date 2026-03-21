@@ -30,7 +30,7 @@ class Coupon {
     private ISOCountry country;
 
     @Column(nullable = false)
-    private int maxUsage;  // TODO: change to VO
+    private int maxUsage;
 
     @Column(nullable = false)
     private int currentUsage;
@@ -39,11 +39,22 @@ class Coupon {
     private Instant createdAt;
 
     @Version
-    @Column(nullable = false)
     private int version;
 
     public static Coupon create(CouponCode code, ISOCountry country, int maxUsage) {
         return new Coupon(code, country, maxUsage);
+    }
+
+    public boolean countryAllowed(ISOCountry country) {
+        return this.country.equals(country);
+    }
+
+    public boolean isMaxUsageReached() {
+        return currentUsage >= maxUsage;
+    }
+
+    public void redeemed() {
+        currentUsage++;
     }
 
     protected Coupon() {}

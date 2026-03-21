@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
-class ISOCountry {
+public class ISOCountry {
     private final String value;
 
     public ISOCountry(String value) {
