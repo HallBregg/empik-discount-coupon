@@ -70,4 +70,12 @@ class CouponRedemption {
         this.country = country;
         this.redeemedAt = Instant.now();
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public Instant getRedeemedAt() {
+        return redeemedAt;
+    }
 }

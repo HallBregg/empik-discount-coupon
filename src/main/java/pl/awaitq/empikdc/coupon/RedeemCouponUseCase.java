@@ -76,7 +76,7 @@ class RedeemCouponUseCase {
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Already used");
         }
-        return new RedeemCouponResult();
+        return new RedeemCouponResult(couponRedemption.getId(), couponRedemption.getRedeemedAt());
     }
 }
 
