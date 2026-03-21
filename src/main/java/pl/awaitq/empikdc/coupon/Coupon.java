@@ -53,7 +53,7 @@ class Coupon {
         return currentUsage >= maxUsage;
     }
 
-    public void redeemed() {
+    public void redeem() {
         currentUsage++;
     }
 

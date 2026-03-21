@@ -1,7 +1,9 @@
 package pl.awaitq.empikdc.coupon;
 
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,8 @@ interface CouponRepository extends JpaRepository<Coupon, UUID> {
 
     boolean existsByCode(CouponCode code);
 
-    Optional<Coupon> findByCode(CouponCode code);
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<Coupon> findForUpdateByCode(CouponCode code);
 
     @Modifying
     @Query("""

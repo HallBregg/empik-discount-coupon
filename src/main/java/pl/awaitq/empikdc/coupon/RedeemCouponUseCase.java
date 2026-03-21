@@ -2,11 +2,8 @@ package pl.awaitq.empikdc.coupon;
 
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
 
 
 @Service
@@ -23,13 +20,18 @@ class RedeemCouponUseCase {
 
     @Transactional
     public RedeemCouponResult redeemCoupon(RedeemCouponCommand command) {
-        // Optimistic locking at this version.
-        // For now, I assume that those discount coupons are not activated in spikes.
-        // If they are, then we should think about DB atomic update. That would require moving domain logic into the DB
-        // and queries. So for now, optimistic locking is a good starting point. If a business provides
-        // additional information about specific of the coupons and expected traffic, then we could reimplement into atomic update.
-        // Also, we could use Pessimistic locking if we require full control over activations.
-        // The locking mechanism depends on the traffic we expect and the type of coupons.
+        // Optimistic locking - Ok for small traffic and a small number of collisions.
+        //                      In case of many collisions, we get a lot of wasted work (retry of ObjectOptimisticLockingFailureException).
+
+        // Pessimistic locking - Ok for small traffic. Can be a bottleneck for large traffic,
+        //                       but lock prevents from wasted work (we might just time out some requests).
+
+        // Atomic update - Ok for small traffic, Ok for large traffic, but requires domain logic in the DB and queries.
+        //
+
+        // For this implementation I have selected Pessimistic locking.
+        // Based on business requirements and provided information, this might be an optimal solution.
+
 
         CouponCode couponCode = new CouponCode(command.couponCode());
         ISOCountry isoCountry;
@@ -45,7 +47,7 @@ class RedeemCouponUseCase {
         }
 
         Coupon coupon = couponRepository
-                .findByCode(couponCode)
+                .findForUpdateByCode(couponCode)
                 .orElseThrow(() -> new RuntimeException("Coupon not found"));
 
         if (!coupon.countryAllowed(isoCountry)) {
@@ -59,20 +61,14 @@ class RedeemCouponUseCase {
         if (couponRedemptionRepository.existsByCouponIdAndUserId(coupon.getId(), command.userId())) {
             throw new CouponHasAlreadyBeenUsed();
         }
-        coupon.redeemed();
+        coupon.redeem();
+        couponRepository.save(coupon);
 
         CouponRedemption couponRedemption = CouponRedemption.create(
                 coupon.getId(),
                 command.userId(),
                 command.ip(),
                 isoCountry);
-
-        try {
-            couponRepository.save(coupon);
-        } catch (ObjectOptimisticLockingFailureException e) {
-            throw new CouponOptimisticLockingFailureException(coupon.getId(), command.userId(), Instant.now());
-        }
-
         try {
             couponRedemptionRepository.save(couponRedemption);
         } catch (DataIntegrityViolationException e) {
