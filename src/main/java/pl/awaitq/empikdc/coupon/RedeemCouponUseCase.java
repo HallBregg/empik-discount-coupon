@@ -48,7 +48,7 @@ class RedeemCouponUseCase {
 
         Coupon coupon = couponRepository
                 .findForUpdateByCode(couponCode)
-                .orElseThrow(() -> new RuntimeException("Coupon not found"));
+                .orElseThrow(() -> new CouponNotFoundDomainException("Coupon code %s not found".formatted(couponCode)));
 
         if (!coupon.countryAllowed(isoCountry)) {
             throw new CouponInvalidCountryDomainException(isoCountry);
