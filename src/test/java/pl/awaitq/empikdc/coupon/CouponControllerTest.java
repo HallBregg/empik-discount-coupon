@@ -9,6 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import pl.awaitq.empikdc.coupon.api.CouponController;
+import pl.awaitq.empikdc.coupon.api.CreateCouponRequest;
+import pl.awaitq.empikdc.coupon.api.CreateCouponResponse;
+import pl.awaitq.empikdc.coupon.api.RedeemCouponRequest;
+import pl.awaitq.empikdc.coupon.domain.*;
+import pl.awaitq.empikdc.coupon.domain.dto.*;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.Instant;

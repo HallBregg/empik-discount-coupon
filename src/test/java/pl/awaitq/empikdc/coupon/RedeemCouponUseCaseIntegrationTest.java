@@ -9,6 +9,11 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import pl.awaitq.empikdc.coupon.domain.*;
+import pl.awaitq.empikdc.coupon.domain.dto.*;
+import pl.awaitq.empikdc.coupon.domain.port.CouponRedemptionRepository;
+import pl.awaitq.empikdc.coupon.domain.port.CouponRepository;
+import pl.awaitq.empikdc.coupon.domain.port.GeoIpServiceException;
 import pl.awaitq.empikdc.coupon.fixtures.FakeGeoIpService;
 
 import java.util.UUID;

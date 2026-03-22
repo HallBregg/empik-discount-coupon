@@ -7,6 +7,11 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import pl.awaitq.empikdc.coupon.domain.*;
+import pl.awaitq.empikdc.coupon.domain.dto.CouponAlreadyExistsDomainException;
+import pl.awaitq.empikdc.coupon.domain.dto.CreateCouponCommand;
+import pl.awaitq.empikdc.coupon.domain.dto.CreateCouponResult;
+import pl.awaitq.empikdc.coupon.domain.port.CouponRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -40,8 +45,8 @@ class CreateCouponUseCaseIntegrationTest {
         Coupon savedCoupon = couponRepository.findByCode(new CouponCode("SUMMER10"))
                 .orElseThrow();
 
-        assertThat(savedCoupon.getCode().getValue()).isEqualTo("SUMMER10");
-        assertThat(savedCoupon.getCountry().getValue()).isEqualTo("PL");
+        assertThat(savedCoupon.getCode().value()).isEqualTo("SUMMER10");
+        assertThat(savedCoupon.getCountry().value()).isEqualTo("PL");
         assertThat(savedCoupon.getMaxUsage()).isEqualTo(100);
         assertThat(savedCoupon.getCurrentUsage()).isZero();
         assertThat(savedCoupon.getCreatedAt()).isNotNull();

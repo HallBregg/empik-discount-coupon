@@ -6,6 +6,8 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import pl.awaitq.empikdc.coupon.domain.dto.CouponDomainException;
+import pl.awaitq.empikdc.coupon.domain.dto.CouponNotFoundDomainException;
 
 import java.net.URI;
 import java.util.List;

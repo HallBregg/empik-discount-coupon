@@ -1,8 +1,8 @@
 package pl.awaitq.empikdc.coupon.fixtures;
 
-import pl.awaitq.empikdc.coupon.GeoIpService;
-import pl.awaitq.empikdc.coupon.GeoIpServiceException;
-import pl.awaitq.empikdc.coupon.ISOCountry;
+import pl.awaitq.empikdc.coupon.domain.port.GeoIpService;
+import pl.awaitq.empikdc.coupon.domain.port.GeoIpServiceException;
+import pl.awaitq.empikdc.coupon.domain.ISOCountry;
 
 
 public class FakeGeoIpService implements GeoIpService {
