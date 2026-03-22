@@ -13,6 +13,10 @@ public class CouponCode {
         this.value = value.trim().toUpperCase();
     }
 
+    public static CouponCode of(String value) {
+        return new CouponCode(value);
+    }
+
     public String getValue() {
         return value;
     }
