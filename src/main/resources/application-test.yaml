@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5433/app-test
+#    username: app-test
+#    password: app-test
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#
+#logging:
+#  level:
+#    pl.awaitq.empikdc: DEBUG

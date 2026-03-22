@@ -20,6 +20,8 @@ interface CouponRepository extends JpaRepository<Coupon, UUID> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Coupon> findForUpdateByCode(CouponCode code);
 
+    Optional<Coupon> findByCode(CouponCode code);
+
     @Modifying
     @Query("""
         update Coupon c
