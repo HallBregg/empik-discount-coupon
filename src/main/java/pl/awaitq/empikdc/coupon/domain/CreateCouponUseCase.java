@@ -24,11 +24,11 @@ public class CreateCouponUseCase {
     @Transactional
     public CreateCouponResult createCoupon(CreateCouponCommand command) {
         CouponCode couponCode = new CouponCode(command.code());
-        // TODO: validate country code and handle exception
         ISOCountry country = new ISOCountry(command.country());
 
         // Not necessary when we have a 'unique' on the database.
         if(couponRepository.existsByCode(couponCode)){
+            logger.warn("Coupon for code {} already exists.", couponCode);
             throw new CouponAlreadyExistsDomainException(couponCode);
         }
 
@@ -36,8 +36,13 @@ public class CreateCouponUseCase {
         try{
             couponRepository.saveAndFlush(coupon);
         } catch(DataIntegrityViolationException e){
+            logger.error("Coupon for code {} already exists.", couponCode, e);
             throw new CouponAlreadyExistsDomainException(couponCode);
         }
+
+        logger.atInfo()
+                .addKeyValue("couponId", coupon.getId())
+                .log("Coupon for code {} created.", coupon);
 
         return CreateCouponResult.of(coupon);
     }

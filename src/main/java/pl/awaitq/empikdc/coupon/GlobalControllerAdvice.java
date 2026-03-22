@@ -19,7 +19,7 @@ record FieldError(String field, String message) {}
 
 // To unify all error messages, we could override ResponseEntityExceptionHandler.
 @ControllerAdvice
-class GlobalControllerAdvice {
+public class GlobalControllerAdvice {
     // I have decided to use RFC 7807 error format. It is well-known and widely used.
     // Also, I have decided to use the ProblemDetail class.
     // Without it, we would have to pack a response in ResponseEntity or annotate a handler with ResponseStatus.

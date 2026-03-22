@@ -23,3 +23,8 @@ spring:
 logging:
   level:
     pl.awaitq.empikdc: DEBUG
+    org.springframework.cache: TRACE
+
+app:
+  cache:
+    enabled: true
